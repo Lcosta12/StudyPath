@@ -8,7 +8,7 @@ export const register = async (username: string, email: string, password: string
 
 // Login (gera token)
 export const login = async (email: string, password: string) => {
-  const response = await api.post("token/", { username: email, password });
+  const response = await api.post("token/", { email, password });
   return response.data;
 };
 
