@@ -1,22 +1,57 @@
 import { useState } from "react";
 import { login } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    
+    // Toast de loading
+    const loadingToast = toast.loading("Entrando...");
+    
     try {
       const data = await login(email, password);
       console.log("Login OK:", data);
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
-      navigate("/home");
-    } catch (err) {
+      
+      // Remove loading e mostra sucesso
+      toast.dismiss(loadingToast);
+      toast.success("Login realizado com sucesso! 🎉", {
+        duration: 2000,
+      });
+      
+      setTimeout(() => {
+        navigate("/home");
+      }, 500);
+      
+    } catch (err: any) {
       console.error("Erro no login:", err);
+      
+      // Remove loading e mostra erro
+      toast.dismiss(loadingToast);
+      
+      let errorMessage = "Erro ao fazer login";
+      if (err.response?.status === 401) {
+        errorMessage = "Email ou senha incorretos";
+      } else if (err.response?.status === 400) {
+        errorMessage = "Dados inválidos";
+      } else if (!err.response) {
+        errorMessage = "Servidor não respondeu. Verifique sua conexão";
+      }
+      
+      toast.error(errorMessage, {
+        duration: 5000,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,6 +68,8 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Digite seu email"
+              disabled={loading}
+              required
             />
           </div>
           <div className="mb-3">
@@ -43,10 +80,16 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Digite sua senha"
+              disabled={loading}
+              required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100">
-            Entrar
+          <button 
+            type="submit" 
+            className="btn btn-primary w-100"
+            disabled={loading}
+          >
+            {loading ? "Entrando..." : "Entrar"}
           </button>
         </form>
       </div>

@@ -1,29 +1,68 @@
 import { useState } from "react";
 import { register } from "../../services/auth";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [curso, setCurso] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    
+    // Toast de loading
+    const loadingToast = toast.loading("Criando conta...");
+    
     try {
       const data = await register(username, email, password, curso);
       console.log("Usuário criado:", data);
-      setMessage("✅ Conta criada com sucesso! Agora faça login.");
-    } catch (err) {
+      
+      // Remove loading e mostra sucesso
+      toast.dismiss(loadingToast);
+      toast.success("✅ Conta criada com sucesso! Redirecionando para login...", {
+        duration: 3000,
+      });
+      
+      // Redireciona para login após 1.5s
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+      
+    } catch (err: any) {
       console.error(err);
-      setMessage("❌ Erro ao criar conta.");
+      
+      // Remove loading e mostra erro
+      toast.dismiss(loadingToast);
+      
+      let errorMessage = "Erro ao criar conta";
+      if (err.response?.status === 400) {
+        if (err.response.data?.username) {
+          errorMessage = "Nome de usuário já existe";
+        } else if (err.response.data?.email) {
+          errorMessage = "Email já está em uso";
+        } else {
+          errorMessage = "Dados inválidos. Verifique os campos";
+        }
+      } else if (!err.response) {
+        errorMessage = "Servidor não respondeu. Tente novamente";
+      }
+      
+      toast.error(errorMessage, {
+        duration: 5000,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="container mt-5" style={{ maxWidth: "500px" }}>
       <h2 className="mb-4 text-center">Cadastro</h2>
-      {message && <div className="alert alert-info">{message}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Usuário</label>
@@ -64,12 +103,17 @@ const Register = () => {
             className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
             required
           />
         </div>
 
-        <button type="submit" className="btn btn-primary w-100">
-          Criar Conta
+        <button 
+          type="submit" 
+          className="btn btn-primary w-100"
+          disabled={loading}
+        >
+          {loading ? "Cadastrando..." : "Criar Conta"}
         </button>
       </form>
     </div>

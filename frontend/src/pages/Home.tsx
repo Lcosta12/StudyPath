@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { FaUpload, FaSpinner, FaCheck, FaClock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 interface Materia {
@@ -25,8 +26,11 @@ const HomePage: React.FC = () => {
       const token = localStorage.getItem("access");
       
       if (!token) {
-        console.log(" Token não encontrado, redirecionando para login");
-        navigate("/");
+        console.log("❌ Token não encontrado, redirecionando para login");
+        toast.error("Sessão expirada. Faça login novamente", {
+          duration: 3000,
+        });
+        navigate("/login");
         return;
       }
 
@@ -39,6 +43,9 @@ const HomePage: React.FC = () => {
         console.log("❌ Token inválido, removendo e redirecionando");
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
+        toast.error("Sessão expirada. Faça login novamente", {
+          duration: 3000,
+        });
         navigate("/login");
       }
     };
@@ -71,8 +78,22 @@ const HomePage: React.FC = () => {
         },
       });
       setMaterias(response.data);
-    } catch (error) {
+      
+      // Toast informativo se não houver matérias
+      if (response.data.length === 0) {
+        toast("📚 Nenhuma matéria encontrada. Importe um arquivo para começar!", {
+          icon: "ℹ️",
+          duration: 4000,
+        });
+      }
+      
+    } catch (error: any) {
       console.error("Erro ao carregar matérias:", error);
+      if (error.response?.status !== 401) { // Não mostra erro se for problema de auth
+        toast.error("Erro ao carregar matérias", {
+          duration: 4000,
+        });
+      }
     }
   };
 
@@ -100,11 +121,26 @@ const HomePage: React.FC = () => {
             : materia
         )
       );
+
+      // Toast de sucesso
+      const statusText = novoStatus === "concluida" ? "concluída" : "pendente";
+      toast.success(`✅ Matéria marcada como ${statusText}!`, {
+        duration: 2000,
+      });
       
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro ao alterar status:", error);
-      setMensagem("❌ Erro ao alterar status da matéria");
-      setTipoMensagem("error");
+      
+      let errorMessage = "Erro ao alterar status da matéria";
+      if (error.response?.status === 401) {
+        errorMessage = "Sessão expirada. Faça login novamente";
+      } else if (error.response?.status === 404) {
+        errorMessage = "Matéria não encontrada";
+      }
+      
+      toast.error(errorMessage, {
+        duration: 4000,
+      });
     } finally {
       setLoadingStatus(prev => ({...prev, [materiaId]: false}));
     }
@@ -119,8 +155,7 @@ const HomePage: React.FC = () => {
 
   const handleUpload = async () => {
     if (!arquivo) {
-      setMensagem("⚠️ Selecione um arquivo primeiro!");
-      setTipoMensagem("error");
+      toast.error("⚠️ Selecione um arquivo primeiro!");
       return;
     }
 
@@ -129,10 +164,11 @@ const HomePage: React.FC = () => {
     const formData = new FormData();
     formData.append("arquivo", arquivo);
 
+    // Toast de loading
+    const loadingToast = toast.loading("📤 Importando arquivo...");
+
     try {
       setLoading(true);
-      setMensagem("📤 Enviando arquivo...");
-      setTipoMensagem("");
       
       console.log("📡 Fazendo requisição para:", "http://localhost:8000/materias/importar/");
       
@@ -155,8 +191,14 @@ const HomePage: React.FC = () => {
       const novasMaterias = response.data.materias || response.data || [];
       setMaterias(novasMaterias);
       
-      setMensagem(`✅ Arquivo importado com sucesso! ${novasMaterias.length} matérias carregadas.`);
-      setTipoMensagem("success");
+      // Remove loading e mostra sucesso
+      toast.dismiss(loadingToast);
+      toast.success(`✅ Arquivo importado com sucesso! ${novasMaterias.length} matérias carregadas.`, {
+        duration: 4000,
+      });
+      
+      // Limpa o arquivo selecionado
+      setArquivo(null);
       
     } catch (error: any) {
       console.error("❌ Erro completo:", error);
@@ -167,22 +209,25 @@ const HomePage: React.FC = () => {
         // Servidor respondeu com erro
         console.error("Status:", error.response.status);
         console.error("Dados:", error.response.data);
-        mensagemErro = `❌ Erro ${error.response.status}: ${error.response.data?.message || error.response.data?.detail || "Erro no servidor"}`;
+        mensagemErro = `Erro ${error.response.status}: ${error.response.data?.message || error.response.data?.detail || "Erro no servidor"}`;
       } else if (error.request) {
         // Requisição foi feita mas sem resposta
         console.error("Sem resposta do servidor:", error.request);
-        mensagemErro = "❌ Servidor não respondeu. Verifique se o backend está rodando.";
+        mensagemErro = "Servidor não respondeu. Verifique se o backend está rodando";
       } else if (error.code === 'ECONNABORTED') {
         // Timeout
-        mensagemErro = "❌ Timeout: Arquivo muito grande ou servidor lento.";
+        mensagemErro = "Timeout: Arquivo muito grande ou servidor lento";
       } else {
         // Erro na configuração
         console.error("Erro de configuração:", error.message);
-        mensagemErro = `❌ Erro: ${error.message}`;
+        mensagemErro = `Erro: ${error.message}`;
       }
       
-      setMensagem(mensagemErro);
-      setTipoMensagem("error");
+      // Remove loading e mostra erro
+      toast.dismiss(loadingToast);
+      toast.error(mensagemErro, {
+        duration: 6000,
+      });
       
     } finally {
       setLoading(false);
