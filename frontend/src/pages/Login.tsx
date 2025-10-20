@@ -92,6 +92,30 @@ function Login() {
             {loading ? "Entrando..." : "Entrar"}
           </button>
         </form>
+
+        {/* Links adicionais */}
+        <div className="text-center mt-3">
+          <div className="mb-2">
+            <button 
+              type="button"
+              className="btn btn-link p-0 text-decoration-none"
+              onClick={() => navigate("/forgot-password")}
+            >
+              Esqueceu sua senha?
+            </button>
+          </div>
+          <hr className="my-2" />
+          <div>
+            <span className="text-muted">Não tem uma conta? </span>
+            <button 
+              type="button"
+              className="btn btn-link p-0 text-decoration-none"
+              onClick={() => navigate("/register")}
+            >
+              Quero me cadastrar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

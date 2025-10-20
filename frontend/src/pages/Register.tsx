@@ -116,6 +116,21 @@ const Register = () => {
           {loading ? "Cadastrando..." : "Criar Conta"}
         </button>
       </form>
+
+      {/* Link para login */}
+      <div className="text-center mt-3">
+        <hr className="my-2" />
+        <div>
+          <span className="text-muted">Já tem uma conta? </span>
+          <button 
+            type="button"
+            className="btn btn-link p-0 text-decoration-none"
+            onClick={() => navigate("/login")}
+          >
+            Fazer login
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
