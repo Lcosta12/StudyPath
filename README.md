@@ -70,17 +70,6 @@ npm start
 
 ---
 
-## 📂 **Estrutura**
-
-```
-StudyPath/
-├── studypath/          # Configurações Django
-├── users/              # Sistema de usuários e disciplinas
-├── uploads/            # Sistema de upload de arquivos
-├── frontend/           # Interface React
-└── media/              # Arquivos dos estudantes
-```
-
 ---
 
 ## 👨‍💻 **Desenvolvedor**
