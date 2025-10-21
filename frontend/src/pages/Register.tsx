@@ -61,7 +61,7 @@ const Register = () => {
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "500px" }}>
+    <div className="container mt-5" style={{ maxWidth: "500px", width: "90%" }}>
       <h2 className="mb-4 text-center">Cadastro</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

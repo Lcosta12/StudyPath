@@ -343,14 +343,15 @@ const HomePage: React.FC = () => {
 
       <div className="row">
         <div className="col-md-6">
-          <table className="table table-bordered">
-            <thead className="table-light">
-              <tr>
-                <th>Matéria</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
+          <div className="table-responsive">
+            <table className="table table-bordered">
+              <thead className="table-light">
+                <tr>
+                  <th>Matéria</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
             <tbody>
               {materias.length > 0 ? (
                 materias.map((materia) => (
@@ -410,6 +411,7 @@ const HomePage: React.FC = () => {
               )}
             </tbody>
           </table>
+          </div>
         </div>
 
         <div className="col-md-6 d-flex flex-column align-items-center">

@@ -51,7 +51,7 @@ function ForgotPassword() {
 
   return (
     <div className="d-flex vh-100 justify-content-center align-items-center bg-light">
-      <div className="card p-4 shadow-lg" style={{ width: "400px" }}>
+      <div className="card p-4 shadow-lg" style={{ width: "400px", maxWidth: "90vw" }}>
         <h3 className="text-center mb-3">Esqueceu sua senha?</h3>
         <p className="text-muted text-center mb-4">
           Digite seu email para receber instruções de recuperação de senha.
