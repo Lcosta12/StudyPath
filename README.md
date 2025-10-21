@@ -61,14 +61,9 @@ cd frontend
 npm install
 
 # Iniciar aplicação
-npm start
+npm run dev
 ```
 
-**Acessos:**
-- Frontend: http://localhost:3000
-- Backend: http://localhost:8000
-
----
 
 ---
 
