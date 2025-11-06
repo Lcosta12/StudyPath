@@ -11,7 +11,6 @@ function ForgotPassword() {
     e.preventDefault();
     setLoading(true);
     
-    // Toast de loading
     const loadingToast = toast.loading("Enviando solicitação...");
     
     try {
@@ -22,16 +21,13 @@ function ForgotPassword() {
       //   body: JSON.stringify({ email })
       // });
       
-      // Por enquanto, simular sucesso
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Remove loading e mostra sucesso
       toast.dismiss(loadingToast);
       toast.success("📧 Instruções enviadas para seu email!", {
         duration: 4000,
       });
       
-      // Opcional: redirecionar para login após alguns segundos
       setTimeout(() => {
         navigate("/login");
       }, 3000);
@@ -39,7 +35,6 @@ function ForgotPassword() {
     } catch (error) {
       console.error("Erro ao solicitar recuperação:", error);
       
-      // Remove loading e mostra erro
       toast.dismiss(loadingToast);
       toast.error("Erro ao enviar solicitação. Tente novamente.", {
         duration: 4000,

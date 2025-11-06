@@ -13,7 +13,6 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     
-    // Toast de loading
     const loadingToast = toast.loading("Entrando...");
     
     try {
@@ -22,7 +21,6 @@ function Login() {
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
       
-      // Remove loading e mostra sucesso
       toast.dismiss(loadingToast);
       toast.success("Login realizado com sucesso! 🎉", {
         duration: 2000,
@@ -35,7 +33,6 @@ function Login() {
     } catch (err: any) {
       console.error("Erro no login:", err);
       
-      // Remove loading e mostra erro
       toast.dismiss(loadingToast);
       
       let errorMessage = "Erro ao fazer login";

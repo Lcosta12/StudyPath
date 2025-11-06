@@ -16,7 +16,6 @@ function App() {
         <Route path="/home" element={<Home/>}/>
       </Routes>
       
-      {/* Configuração dos Toasts */}
       <Toaster
         position="top-right"
         reverseOrder={false}
@@ -24,14 +23,12 @@ function App() {
         containerClassName=""
         containerStyle={{}}
         toastOptions={{
-          // Configurações padrão para todos os toasts
           className: '',
           duration: 4000,
           style: {
             background: '#363636',
             color: '#fff',
           },
-          // Configurações específicas por tipo
           success: {
             duration: 3000,
             style: {
