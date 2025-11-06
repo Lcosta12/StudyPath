@@ -122,11 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Arquivos enviados por usuários (uploads)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Default primary key field type
@@ -150,3 +146,10 @@ AUTH_USER_MODEL = 'users.User'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
+
+# Local onde os arquivos estáticos serão reunidos em produção
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Pasta de uploads (se usar)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / "media"
