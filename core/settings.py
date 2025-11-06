@@ -146,6 +146,8 @@ AUTH_USER_MODEL = 'users.User'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://lcosta1209.pythonanywhere.com",
+    "https://study-path-gules.vercel.app",
+    "https://study-path-git-main-lcosta12s-projects.vercel.app",
 ]
 
 # Local onde os arquivos estáticos serão reunidos em produção
