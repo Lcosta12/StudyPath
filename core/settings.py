@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-e&d)x3a^%bwp#!h#-xi88(zechzbxoh%7zddefybi_)&^@6eil
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lcosta1209.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -145,6 +145,7 @@ AUTH_USER_MODEL = 'users.User'
 # CORS (para permitir acesso do frontend)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://lcosta1209.pythonanywhere.com",
 ]
 
 # Local onde os arquivos estáticos serão reunidos em produção
