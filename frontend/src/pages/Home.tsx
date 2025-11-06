@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
       }
 
       try {
-        await axios.get("http://127.0.0.1:8000/materias/", {
+  await axios.get("https://lcosta1209.pythonanywhere.com/materias/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Token válido");
@@ -68,7 +68,7 @@ const HomePage: React.FC = () => {
   const carregarMaterias = async () => {
     try {
       const token = localStorage.getItem("access");
-      const response = await axios.get("http://localhost:8000/materias/", {
+  const response = await axios.get("https://lcosta1209.pythonanywhere.com/materias/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -98,7 +98,7 @@ const HomePage: React.FC = () => {
       
       const token = localStorage.getItem("access");
       await axios.patch(
-        `http://localhost:8000/materias/${materiaId}/`,
+        `https://lcosta1209.pythonanywhere.com/materias/${materiaId}/`,
         { status: novoStatus },
         {
           headers: {
@@ -162,11 +162,11 @@ const HomePage: React.FC = () => {
     try {
       setLoading(true);
       
-      console.log("📡 Fazendo requisição para:", "http://localhost:8000/materias/importar/");
+  console.log("📡 Fazendo requisição para:", "https://lcosta1209.pythonanywhere.com/materias/importar/");
       
       const token = localStorage.getItem("access");
       const response = await axios.post(
-        "http://localhost:8000/materias/importar/",
+        "https://lcosta1209.pythonanywhere.com/materias/importar/",
         formData,
         {
           headers: {
