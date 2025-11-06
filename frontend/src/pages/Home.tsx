@@ -16,7 +16,6 @@ const HomePage: React.FC = () => {
   const [arquivo, setArquivo] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [mensagem, setMensagem] = useState<string>("");
-  const [tipoMensagem, setTipoMensagem] = useState<"success" | "error" | "">("");
   const [loadingStatus, setLoadingStatus] = useState<{[key: number]: boolean}>({});
   const navigate = useNavigate();
 
@@ -319,7 +318,7 @@ const HomePage: React.FC = () => {
         )}
         
         {mensagem && (
-          <div className={`alert ${tipoMensagem === "success" ? "alert-success" : tipoMensagem === "error" ? "alert-danger" : "alert-info"} mt-2`}>
+          <div className="alert alert-info mt-2">
             {mensagem}
           </div>
         )}
