@@ -36,14 +36,17 @@ O **StudyPath** permite que estudantes da FACCAT organizem e acompanhem o progre
 - Django REST Framework  
 - JWT Authentication (via `djangorestframework-simplejwt`)  
 - SQLite  
-- Hospedado no **[PythonAnywhere](https://www.pythonanywhere.com/)**  
-  🔗 API: [https://lcosta1209.pythonanywhere.com/api/](https://lcosta1209.pythonanywhere.com/api/)
+- Gunicorn  
+- Hospedado no **[Render](https://render.com/)**  
+  🔗 API: [https://studypath-ik8k.onrender.com/api/](https://studypath-ik8k.onrender.com/api/)
 
 ### **Frontend**
 - React 18 + TypeScript  
 - Vite  
 - Bootstrap 5  
-- Chart.js  
+- Recharts (Gráficos)  
+- Axios  
+- React Hot Toast  
 - Hospedado no **[Vercel](https://vercel.com/)**  
   🔗 Frontend: [https://study-path-gules.vercel.app/](https://study-path-gules.vercel.app/)
 
@@ -54,7 +57,7 @@ O **StudyPath** permite que estudantes da FACCAT organizem e acompanhem o progre
 | Componente | Ambiente | URL |
 |-------------|-----------|-----|
 | **Frontend (Vercel)** | Produção | [https://study-path-gules.vercel.app/](https://study-path-gules.vercel.app/) |
-| **Backend (PythonAnywhere)** | Produção | [https://lcosta1209.pythonanywhere.com/api/](https://lcosta1209.pythonanywhere.com/api/) |
+| **Backend (Render)** | Produção | [https://studypath-ik8k.onrender.com/api/](https://studypath-ik8k.onrender.com/api/) |
 
 ---
 
